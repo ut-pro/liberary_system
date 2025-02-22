@@ -51,9 +51,7 @@ export const userLogin = async (req, res) => {
           email: userData.email,
         };
 
-        let token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-          expiresIn: "1h",
-        });
+        let token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
 
         userData.token = token;
         await userData.save();
@@ -72,7 +70,7 @@ export const userLogin = async (req, res) => {
 export const userLogout = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user._id });
-
+    console.log(user);
     user.token = null;
     await user.save();
     res.send("logout sucess");
